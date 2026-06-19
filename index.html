@@ -5,29 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>RHEA — Tehran · Berlin</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;600;800&family=Zilla+Slab:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #f5f2ee;
-      --bg-dark: #ede9e3;
-      --ink: #1a1815;
-      --ink-soft: rgba(26,24,21,0.45);
-      --ink-faint: rgba(26,24,21,0.12);
-      --gold: #9a7a4a;
-      --gold-light: rgba(154,122,74,0.15);
-      --serif: 'Cormorant Garamond', serif;
-      --sans: 'Jost', sans-serif;
+      --bg: #f7f0e6;
+      --bg-dark: #ecdfc9;
+      --ink: #1c1410;
+      --ink-soft: rgba(28,20,16,0.55);
+      --ink-faint: rgba(28,20,16,0.16);
+      --gold: #b5621f;
+      --gold-light: rgba(181,98,31,0.18);
+      --rust: #a8311f;
+      --serif: 'Roboto Slab', serif;
+      --sans: 'Zilla Slab', serif;
     }
 
     html, body {
       font-family: var(--sans);
-      font-weight: 300;
+      font-weight: 400;
       background: var(--bg);
       color: var(--ink);
-      letter-spacing: 0.04em;
+      letter-spacing: 0.02em;
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
     /* ─── NAV ─── */
@@ -45,7 +47,7 @@
     .nav-logo {
       font-family: var(--serif);
       font-size: 20px;
-      font-weight: 300;
+      font-weight: 600;
       letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--ink);
@@ -66,7 +68,7 @@
       border-bottom: 0.5px solid transparent;
     }
     .nav-links span:hover { color: var(--ink); }
-    .nav-links span.active { color: var(--ink); border-bottom-color: var(--gold); }
+    .nav-links span.active { color: var(--rust); border-bottom-color: var(--rust); font-weight: 700; }
 
     /* ─── PAGE SYSTEM ─── */
     .page { display: none; }
@@ -82,7 +84,7 @@
     }
     .serif-headline {
       font-family: var(--serif);
-      font-weight: 300;
+      font-weight: 600;
       color: var(--ink);
       line-height: 1.1;
     }
@@ -147,13 +149,14 @@
     }
     .hero-thumb img {
       width: 100%;
-      height: 100%;
+      height: 130%;
       object-fit: cover;
       object-position: top;
-      opacity: 0.88;
-      transition: transform 0.4s, opacity 0.3s;
+      opacity: 0.92;
+      will-change: transform;
+      transition: opacity 0.3s;
     }
-    .hero-thumb:hover img { transform: scale(1.04); opacity: 1; }
+    .hero-thumb:hover img { opacity: 1; }
     .hero-thumb-label {
       position: absolute;
       bottom: 0.75rem;
@@ -188,7 +191,7 @@
     .home-cat-title {
       font-family: var(--serif);
       font-size: 28px;
-      font-weight: 300;
+      font-weight: 600;
       color: var(--ink);
       margin-bottom: 0.75rem;
     }
@@ -215,13 +218,18 @@
     .home-feature-img {
       background: var(--bg-dark);
       overflow: hidden;
+      position: relative;
     }
     .home-feature-img img {
       width: 100%;
-      height: 100%;
+      height: 130%;
       object-fit: cover;
       object-position: top;
-      opacity: 0.9;
+      opacity: 0.92;
+      will-change: transform;
+      position: absolute;
+      top: -10%;
+      left: 0;
     }
     .home-feature-body {
       padding: 3.5rem 3rem;
@@ -293,13 +301,17 @@
     .col-item.featured .col-item-img { aspect-ratio: 16/9; }
     .col-item-img img {
       width: 100%;
-      height: 100%;
+      height: 125%;
       object-fit: cover;
       object-position: top;
-      opacity: 0.9;
-      transition: transform 0.4s, opacity 0.3s;
+      opacity: 0.92;
+      will-change: transform;
+      transition: opacity 0.3s;
+      position: absolute;
+      top: -8%;
+      left: 0;
     }
-    .col-item:hover .col-item-img img { transform: scale(1.03); opacity: 1; }
+    .col-item:hover .col-item-img img { opacity: 1; }
     .col-item-cat {
       position: absolute;
       top: 1rem;
@@ -315,7 +327,7 @@
     .col-item-name {
       font-family: var(--serif);
       font-size: 18px;
-      font-weight: 300;
+      font-weight: 600;
       color: var(--ink);
       margin-bottom: 0.35rem;
       line-height: 1.2;
@@ -369,7 +381,7 @@
     .about-pull {
       font-family: var(--serif);
       font-size: 21px;
-      font-weight: 300;
+      font-weight: 600;
       font-style: italic;
       line-height: 1.55;
       color: var(--gold);
@@ -382,13 +394,18 @@
       min-height: 320px;
       overflow: hidden;
       background: var(--bg-dark);
+      position: relative;
     }
     .about-img-wrap img {
       width: 100%;
-      height: 100%;
+      height: 130%;
       object-fit: cover;
       object-position: top;
-      opacity: 0.88;
+      opacity: 0.92;
+      will-change: transform;
+      position: absolute;
+      top: -10%;
+      left: 0;
     }
     .about-img-caption {
       padding: 1.25rem 1.5rem;
@@ -411,7 +428,7 @@
     .tl-year {
       font-family: var(--serif);
       font-size: 32px;
-      font-weight: 300;
+      font-weight: 600;
       color: rgba(26,24,21,0.14);
       margin-bottom: 0.5rem;
     }
@@ -439,7 +456,7 @@
     .footer-logo {
       font-family: var(--serif);
       font-size: 15px;
-      font-weight: 300;
+      font-weight: 600;
       letter-spacing: 0.22em;
       text-transform: uppercase;
       color: rgba(26,24,21,0.25);
@@ -815,6 +832,43 @@
         applyFilter(f.dataset.filter);
       });
     });
+
+    /* ─── PARALLAX ON SCROLL ─── */
+    const parallaxImgs = document.querySelectorAll(
+      '.hero-thumb img, .home-feature-img img, .col-item-img img, .about-img-wrap img'
+    );
+
+    function updateParallax() {
+      const vh = window.innerHeight;
+      parallaxImgs.forEach(img => {
+        const rect = img.parentElement.getBoundingClientRect();
+        const center = rect.top + rect.height / 2;
+        const offset = (center - vh / 2) * 0.12;
+        img.style.transform = `translateY(${offset}px)`;
+      });
+    }
+
+    let ticking = false;
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          updateParallax();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    });
+
+    window.addEventListener('resize', updateParallax);
+    window.addEventListener('load', updateParallax);
+    updateParallax();
+
+    // Re-run parallax when switching pages (since hidden elements report 0 size)
+    const originalShowPage = showPage;
+    showPage = function(id) {
+      originalShowPage(id);
+      setTimeout(updateParallax, 60);
+    };
   </script>
 
 </body>
