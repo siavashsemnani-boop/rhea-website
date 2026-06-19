@@ -1,1 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RHEA — Tehran · Berlin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --bg: #f5f2ee;
+      --bg-dark: #ede9e3;
+      --ink: #1a1815;
+      --ink-soft: rgba(26,24,21,0.45);
+      --ink-faint: rgba(26,24,21,0.12);
+      --gold: #9a7a4a;
+      --gold-light: rgba(154,122,74,0.15);
+      --serif: 'Cormorant Garamond', serif;
+      --sans: 'Jost', sans-serif;
+    }
+
+    html, body {
+      font-family: var(--sans);
+      font-weight: 300;
+      background: var(--bg);
+      color: var(--ink);
+      letter-spacing: 0.04em;
+      min-height: 100vh;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.4rem 2.5rem;
+      background: var(--bg);
+      border-bottom: 0.5px solid var(--ink-faint);
+    }
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 20px;
+      font-weight: 300;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--ink);
+      cursor: pointer;
+    }
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      font-size: 10.5px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+    .nav-links span {
+      cursor: pointer;
+      transition: color 0.2s;
+      padding-bottom: 2px;
+      border-bottom: 0.5px solid transparent;
+    }
+    .nav-links span:hover { color: var(--ink); }
+    .nav-links span.active { color: var(--ink); border-bottom-color: var(--gold); }
+
+    /* ─── PAGE SYSTEM ─── */
+    .page { display: none; }
+    .page.active { display: block; }
+
+    /* ─── SHARED ─── */
+    .eyebrow {
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.25rem;
+    }
+    .serif-headline {
+      font-family: var(--serif);
+      font-weight: 300;
+      color: var(--ink);
+      line-height: 1.1;
+    }
+    .serif-headline em { font-style: italic; color: var(--gold); }
+    .divider {
+      width: 36px;
+      height: 0.5px;
+      background: var(--gold);
+      opacity: 0.5;
+      margin: 2rem 0;
+    }
+    .cta-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink);
+      cursor: pointer;
+      padding-bottom: 3px;
+      border-bottom: 0.5px solid rgba(26,24,21,0.35);
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .cta-link:hover { color: var(--gold); border-color: var(--gold); }
+    .border-line { border-bottom: 0.5px solid var(--ink-faint); }
+
+    /* ─── HOME ─── */
+    .home-hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 480px;
+      border-bottom: 0.5px solid var(--ink-faint);
+    }
+    .home-hero-left {
+      padding: 4.5rem 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-right: 0.5px solid var(--ink-faint);
+    }
+    .home-hero-left .serif-headline { font-size: 52px; margin-bottom: 1.5rem; }
+    .home-sub {
+      font-size: 13px;
+      line-height: 1.85;
+      color: var(--ink-soft);
+      max-width: 300px;
+      margin-bottom: 2.5rem;
+    }
+    .home-hero-right {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+    }
+    .hero-thumb {
+      overflow: hidden;
+      border-left: 0.5px solid var(--ink-faint);
+      border-bottom: 0.5px solid var(--ink-faint);
+      position: relative;
+      background: var(--bg-dark);
+      cursor: pointer;
+    }
+    .hero-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      opacity: 0.88;
+      transition: transform 0.4s, opacity 0.3s;
+    }
+    .hero-thumb:hover img { transform: scale(1.04); opacity: 1; }
+    .hero-thumb-label {
+      position: absolute;
+      bottom: 0.75rem;
+      left: 0.75rem;
+      font-size: 9px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink);
+      background: rgba(245,242,238,0.7);
+      padding: 3px 7px;
+    }
+
+    .home-cats {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      border-bottom: 0.5px solid var(--ink-faint);
+    }
+    .home-cat {
+      padding: 2.5rem 2rem;
+      border-right: 0.5px solid var(--ink-faint);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .home-cat:last-child { border-right: none; }
+    .home-cat:hover { background: var(--bg-dark); }
+    .home-cat-num {
+      font-size: 10px;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      margin-bottom: 1.25rem;
+    }
+    .home-cat-title {
+      font-family: var(--serif);
+      font-size: 28px;
+      font-weight: 300;
+      color: var(--ink);
+      margin-bottom: 0.75rem;
+    }
+    .home-cat-desc {
+      font-size: 12px;
+      line-height: 1.75;
+      color: var(--ink-soft);
+    }
+    .home-cat-arrow {
+      margin-top: 1.5rem;
+      font-size: 18px;
+      color: rgba(26,24,21,0.2);
+      display: inline-block;
+      transition: color 0.2s, transform 0.2s;
+    }
+    .home-cat:hover .home-cat-arrow { color: var(--gold); transform: translateX(5px); }
+
+    .home-feature {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 360px;
+      border-bottom: 0.5px solid var(--ink-faint);
+    }
+    .home-feature-img {
+      background: var(--bg-dark);
+      overflow: hidden;
+    }
+    .home-feature-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      opacity: 0.9;
+    }
+    .home-feature-body {
+      padding: 3.5rem 3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-left: 0.5px solid var(--ink-faint);
+    }
+    .home-feature-title { font-size: 34px; margin-bottom: 1rem; }
+    .home-feature-text {
+      font-size: 13px;
+      line-height: 1.85;
+      color: var(--ink-soft);
+      margin-bottom: 2rem;
+    }
+
+    /* ─── COLLECTION ─── */
+    .col-header {
+      padding: 3rem 2.5rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-bottom: 0.5px solid var(--ink-faint);
+    }
+    .col-header .serif-headline { font-size: 38px; }
+    .col-count {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+    .col-filters {
+      display: flex;
+      border-bottom: 0.5px solid var(--ink-faint);
+    }
+    .col-filter {
+      padding: 1rem 1.75rem;
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      cursor: pointer;
+      border-right: 0.5px solid var(--ink-faint);
+      transition: color 0.2s, background 0.2s;
+    }
+    .col-filter:hover { color: var(--ink); background: var(--bg-dark); }
+    .col-filter.active { color: var(--ink); border-bottom: 1px solid var(--gold); }
+
+    .col-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+    .col-item {
+      border-right: 0.5px solid var(--ink-faint);
+      border-bottom: 0.5px solid var(--ink-faint);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .col-item:hover { background: var(--bg-dark); }
+    .col-item:nth-child(3n) { border-right: none; }
+    .col-item.featured { grid-column: span 2; }
+    .col-item-img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      overflow: hidden;
+      background: var(--bg-dark);
+      position: relative;
+    }
+    .col-item.featured .col-item-img { aspect-ratio: 16/9; }
+    .col-item-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      opacity: 0.9;
+      transition: transform 0.4s, opacity 0.3s;
+    }
+    .col-item:hover .col-item-img img { transform: scale(1.03); opacity: 1; }
+    .col-item-cat {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      font-size: 9px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: rgba(26,24,21,0.5);
+      padding: 4px 8px;
+    }
+    .col-item-body { padding: 1.25rem 1.25rem 1.5rem; }
+    .col-item-name {
+      font-family: var(--serif);
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--ink);
+      margin-bottom: 0.35rem;
+      line-height: 1.2;
+    }
+    .col-item-detail {
+      font-size: 11px;
+      color: var(--ink-soft);
+      letter-spacing: 0.07em;
+      margin-bottom: 0.9rem;
+    }
+    .col-item-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .col-item-price {
+      font-size: 13px;
+      color: var(--ink-soft);
+    }
+    .col-item-link {
+      font-size: 10px;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: rgba(26,24,21,0.3);
+      transition: color 0.2s;
+    }
+    .col-item:hover .col-item-link { color: var(--gold); }
+    .col-item.hidden { display: none; }
+
+    /* ─── ABOUT ─── */
+    .about-hero { padding: 5rem 3rem 0; max-width: 580px; }
+    .about-hero .serif-headline { font-size: 46px; }
+    .about-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-top: 0.5px solid var(--ink-faint);
+    }
+    .about-text {
+      padding: 3.5rem 3rem;
+      border-right: 0.5px solid var(--ink-faint);
+      display: flex;
+      flex-direction: column;
+      gap: 1.75rem;
+    }
+    .about-para {
+      font-size: 14px;
+      line-height: 1.9;
+      color: var(--ink-soft);
+    }
+    .about-para strong { font-weight: 400; color: var(--ink); }
+    .about-pull {
+      font-family: var(--serif);
+      font-size: 21px;
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.55;
+      color: var(--gold);
+      border-left: 0.5px solid var(--gold);
+      padding-left: 1.5rem;
+    }
+    .about-img-col { display: flex; flex-direction: column; }
+    .about-img-wrap {
+      flex: 1;
+      min-height: 320px;
+      overflow: hidden;
+      background: var(--bg-dark);
+    }
+    .about-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+      opacity: 0.88;
+    }
+    .about-img-caption {
+      padding: 1.25rem 1.5rem;
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+      border-top: 0.5px solid var(--ink-faint);
+    }
+    .about-timeline {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      border-top: 0.5px solid var(--ink-faint);
+    }
+    .tl-item {
+      padding: 2rem 2rem;
+      border-right: 0.5px solid var(--ink-faint);
+    }
+    .tl-item:last-child { border-right: none; }
+    .tl-year {
+      font-family: var(--serif);
+      font-size: 32px;
+      font-weight: 300;
+      color: rgba(26,24,21,0.14);
+      margin-bottom: 0.5rem;
+    }
+    .tl-label {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.5rem;
+    }
+    .tl-desc {
+      font-size: 12px;
+      line-height: 1.7;
+      color: var(--ink-soft);
+    }
+
+    /* ─── FOOTER ─── */
+    footer {
+      padding: 2rem 2.5rem;
+      border-top: 0.5px solid var(--ink-faint);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-logo {
+      font-family: var(--serif);
+      font-size: 15px;
+      font-weight: 300;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(26,24,21,0.25);
+    }
+    .footer-text {
+      font-size: 11px;
+      color: rgba(26,24,21,0.22);
+      letter-spacing: 0.07em;
+    }
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+      font-size: 10px;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      color: rgba(26,24,21,0.3);
+    }
+    .footer-links span { cursor: pointer; transition: color 0.2s; }
+    .footer-links span:hover { color: var(--gold); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-logo" onclick="showPage('home')">Rhea</div>
+    <div class="nav-links">
+      <span onclick="showPage('home')" id="nav-home" class="active">Home</span>
+      <span onclick="showPage('collection')" id="nav-collection">Collection</span>
+      <span onclick="showPage('about')" id="nav-about">About</span>
+    </div>
+    <div class="nav-links">
+      <span onclick="showPage('collection')">Shop</span>
+    </div>
+  </nav>
+
+  <!-- ══════════ HOME ══════════ -->
+  <div class="page active" id="page-home">
+
+    <div class="home-hero">
+      <div class="home-hero-left">
+        <div class="eyebrow">New Collection · SS 2026</div>
+        <div class="serif-headline" style="font-size:52px;">Craft<br>born in<br><em>Tehran.</em></div>
+        <p class="home-sub">Each RHEA piece carries the memory of Iranian textile tradition — reworked for the European woman who dresses with intention.</p>
+        <span class="cta-link" onclick="showPage('collection')">Explore the collection →</span>
+      </div>
+      <div class="home-hero-right">
+        <div class="hero-thumb" onclick="showPage('collection')">
+          <img src="photo_2026-05-03_20-34-40.jpg" alt="Brocade top" />
+          <span class="hero-thumb-label">Evening</span>
+        </div>
+        <div class="hero-thumb" onclick="showPage('collection')">
+          <img src="photo_2026-05-03_20-36-07.jpg" alt="Organza gown" />
+          <span class="hero-thumb-label">Occasion</span>
+        </div>
+        <div class="hero-thumb" onclick="showPage('collection')">
+          <img src="photo_2026-05-03_20-35-26.jpg" alt="Wide leg set" />
+          <span class="hero-thumb-label">Everyday</span>
+        </div>
+        <div class="hero-thumb" onclick="showPage('collection')">
+          <img src="photo_2026-05-03_20-36-10.jpg" alt="Mini dress" />
+          <span class="hero-thumb-label">New In</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="home-cats">
+      <div class="home-cat" onclick="filterAndGo('evening')">
+        <div class="home-cat-num">01</div>
+        <div class="home-cat-title">Evening</div>
+        <div class="home-cat-desc">Structured silhouettes and brocade for nights that demand presence.</div>
+        <div class="home-cat-arrow">→</div>
+      </div>
+      <div class="home-cat" onclick="filterAndGo('everyday')">
+        <div class="home-cat-num">02</div>
+        <div class="home-cat-title">Everyday</div>
+        <div class="home-cat-desc">Tailored basics that carry artisan detail into the ordinary week.</div>
+        <div class="home-cat-arrow">→</div>
+      </div>
+      <div class="home-cat" onclick="filterAndGo('occasion')">
+        <div class="home-cat-num">03</div>
+        <div class="home-cat-title">Occasion</div>
+        <div class="home-cat-desc">Ceremonial dressing — weddings, engagements, cultural celebrations.</div>
+        <div class="home-cat-arrow">→</div>
+      </div>
+    </div>
+
+    <div class="home-feature">
+      <div class="home-feature-img">
+        <img src="photo_2026-05-03_20-35-37.jpg" alt="Featured piece" />
+      </div>
+      <div class="home-feature-body">
+        <div class="eyebrow">Featured · Occasion</div>
+        <div class="serif-headline home-feature-title">The Organza<br>Drape Gown</div>
+        <p class="home-feature-text">One-shoulder organza in pale blue — a fabric that holds light the way memory holds feeling. Hand-finished in Tehran, delivered to Europe.</p>
+        <span class="cta-link" onclick="showPage('collection')">View piece →</span>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-logo">Rhea</div>
+      <div class="footer-text">Tehran — Berlin</div>
+      <div class="footer-links">
+        <span>Instagram</span>
+        <span onclick="showPage('about')">About</span>
+        <span onclick="showPage('collection')">Shop</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ══════════ COLLECTION ══════════ -->
+  <div class="page" id="page-collection">
+
+    <div class="col-header">
+      <div class="serif-headline" style="font-size:38px;">SS 2026 <em>Collection</em></div>
+      <div class="col-count" id="col-count">9 pieces</div>
+    </div>
+
+    <div class="col-filters">
+      <div class="col-filter active" data-filter="all">All</div>
+      <div class="col-filter" data-filter="evening">Evening</div>
+      <div class="col-filter" data-filter="everyday">Everyday</div>
+      <div class="col-filter" data-filter="occasion">Occasion</div>
+    </div>
+
+    <div class="col-grid">
+      <div class="col-item featured" data-cat="occasion">
+        <div class="col-item-img">
+          <img src="photo_2026-05-03_20-36-07.jpg" alt="Organza Drape Gown" />
+          <span class="col-item-cat">Occasion</span>
+        </div>
+        <div class="col-item-body">
+          <div class="col-item-name">Organza Drape Gown</div>
+          <div class="col-item-detail">One-shoulder · Pale blue · Hand-finished</div>
+          <div class="col-item-footer">
+            <span class="col-item-price">€ 490</span>
+            <span class="col-item-link">View →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-item" data-cat="evening">
+        <div class="col-item-img">
+          <img src="photo_2026-05-03_20-35-37.jpg" alt="Mirror Work Cape Gown" />
+          <span class="col-item-cat">Evening</span>
+        </div>
+        <div class="col-item-body">
+          <div class="col-item-name">Mirror Work Cape Gown</div>
+          <div class="col-item-detail">Cape sleeve · Brocade bodice · Black</div>
+          <div class="col-item-footer">
+            <span class="col-item-price">€ 560</span>
+            <span class="col-item-link">View →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-item" data-cat="evening">
+        <div class="col-item-img">
+          <img src="photo_2026-05-03_20-35-18.jpg" alt="Brocade Bustier" />
+          <span class="col-item-cat">Evening</span>
+        </div>
+        <div class="col-item-body">
+          <div class="col-item-name">Brocade Bustier</div>
+          <div class="col-item-detail">Strapless · Floral embroidery · Black</div>
+          <div class="col-item-footer">
+            <span class="col-item-price">€ 210</span>
+            <span class="col-item-link">View →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-item" data-cat="evening">
+        <div class="col-item-img">
+          <img src="photo_2026-05-03_20-35-05.jpg" alt="Scarlet Column Gown" />
+          <span class="col-item-cat">Evening</span>
+        </div>
+        <div class="col-item-body">
+          <div class="col-item-name">Scarlet Column Gown</div>
+          <div class="col-item-detail">Halterneck · Front slit · Crimson</div>
+          <div class="col-item-footer">
+            <span class="col-item-price">€ 380</span>
+            <span class="col-item-link">View →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-item" data-cat="occasion">
+        <div class="col-item-img">
+          <img src="photo_2026-05-03_20-34-50.jpg" alt="Mirror Drape Dress" />
+          <span class="col-item-cat">Occasion</span>
+        </div>
+        <div class="col-item-body">
+          <div class="col-item-name">Mirror Drape Dress</div>
+          <div class="col-item-detail">One-shoulder · Mirror work · Black</div>
+          <div class="col-item-footer">
+            <span class="col-item-price">€ 440</span>
+            <span class="col-item-link">View →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-item" data-cat="everyday">
+        <div class="col-item-img">
+          <img src="photo_2026-05-03_20-34-40.jpg" alt="Brocade Off-Shoulder Top" />
+          <span class="col-item-cat">Everyday</span>
+        </div>
+        <div class="col-item-body">
+          <div class="col-item-name">Brocade Off-Shoulder Top</div>
+          <div class="col-item-detail">Cropped · Bird motif · Teal & grey</div>
+          <div class="col-item-footer">
+            <span class="col-item-price">€ 175</span>
+            <span class="col-item-link">View →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-item" data-cat="everyday">
+        <div class="col-item-img">
+          <img src="photo_2026-05-03_20-35-26.jpg" alt="Tailored Wide-Leg Set" />
+          <span class="col-item-cat">Everyday</span>
+        </div>
+        <div class="col-item-body">
+          <div class="col-item-name">Tailored Wide-Leg Set</div>
+          <div class="col-item-detail">Bustier + trousers · Black · Pleated</div>
+          <div class="col-item-footer">
+            <span class="col-item-price">€ 290</span>
+            <span class="col-item-link">View →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-item" data-cat="everyday">
+        <div class="col-item-img">
+          <img src="photo_2026-05-03_20-36-10.jpg" alt="Iridescent Mini Dress" />
+          <span class="col-item-cat">Everyday</span>
+        </div>
+        <div class="col-item-body">
+          <div class="col-item-name">Iridescent Mini Dress</div>
+          <div class="col-item-detail">One-shoulder · Sequin bodice · Black & green</div>
+          <div class="col-item-footer">
+            <span class="col-item-price">€ 265</span>
+            <span class="col-item-link">View →</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-item" data-cat="occasion">
+        <div class="col-item-img">
+          <img src="photo_2026-05-03_20-34-58.jpg" alt="Jungle Maxi Dress" />
+          <span class="col-item-cat">Occasion</span>
+        </div>
+        <div class="col-item-body">
+          <div class="col-item-name">Jungle Maxi Dress</div>
+          <div class="col-item-detail">Spaghetti strap · Toucan print · Forest green</div>
+          <div class="col-item-footer">
+            <span class="col-item-price">€ 320</span>
+            <span class="col-item-link">View →</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-logo">Rhea</div>
+      <div class="footer-text">Tehran — Berlin · All prices include VAT</div>
+      <div class="footer-links">
+        <span>Instagram</span>
+        <span onclick="showPage('about')">About</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- ══════════ ABOUT ══════════ -->
+  <div class="page" id="page-about">
+
+    <div class="about-hero">
+      <div class="eyebrow">The story behind Rhea</div>
+      <div class="serif-headline" style="font-size:46px;">Made by hand.<br><em>Driven by</em><br>obsession.</div>
+      <div class="divider"></div>
+    </div>
+
+    <div class="about-body">
+      <div class="about-text">
+        <p class="about-para">
+          <strong>It began before she had words for it.</strong> At five years old, in Tehran, she was collecting scraps of fabric — whatever she could find — and turning them into something wearable. Not playing dress-up. Making clothes. There was no school for it yet, no Instagram, no name for what she was doing. Just a child and her instinct for cloth.
+        </p>
+        <div class="about-pull">"I didn't learn to love fabric.<br>I was born already in love with it."</div>
+        <p class="about-para">
+          Ten years ago, in a small flat in Tehran, RHEA became real. No atelier, no team — just the same obsession from childhood, grown up and made precise. She opened an Instagram account and began building from nothing, piece by piece, stitch by stitch. <strong>Each garment shared was an act of courage.</strong> Each follower, a stranger who understood something.
+        </p>
+        <p class="about-para">
+          A decade of work. A decade of learning what fabric can say when a person listens closely enough. The mirror-work, the brocade, the organza — these are not decorations. They are <strong>the language of a culture she carries with her everywhere she goes.</strong>
+        </p>
+        <p class="about-para">
+          Now, from Tehran to Berlin, RHEA is ready for the world. Not because the work changed — but because she finally believes it always deserved to be seen.
+        </p>
+        <span class="cta-link" onclick="showPage('collection')" style="margin-top:0.5rem;">See the collection →</span>
+      </div>
+
+      <div class="about-img-col">
+        <div class="about-img-wrap">
+          <img src="photo_2026-05-03_20-34-50.jpg" alt="RHEA piece detail" />
+        </div>
+        <div class="about-img-caption">Tehran — Founded 2015</div>
+      </div>
+    </div>
+
+    <div class="about-timeline">
+      <div class="tl-item">
+        <div class="tl-year">~1990</div>
+        <div class="tl-label">The beginning</div>
+        <div class="tl-desc">A five-year-old collects fabric scraps in Tehran and makes her first clothes.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2015</div>
+        <div class="tl-label">RHEA is born</div>
+        <div class="tl-desc">A small flat. An Instagram account. A brand built from scratch, stitch by stitch.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2025</div>
+        <div class="tl-label">The world</div>
+        <div class="tl-desc">Tehran to Berlin. Ten years of craft, finally ready to be seen beyond borders.</div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="footer-logo">Rhea</div>
+      <div class="footer-text">Tehran — Berlin · rheaofficial.com</div>
+      <div class="footer-links">
+        <span>Instagram</span>
+        <span onclick="showPage('collection')">Shop</span>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    function showPage(id) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + id).classList.add('active');
+      document.querySelectorAll('.nav-links span[id]').forEach(s => s.classList.remove('active'));
+      const navEl = document.getElementById('nav-' + id);
+      if (navEl) navEl.classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    function filterAndGo(cat) {
+      showPage('collection');
+      setTimeout(() => {
+        document.querySelectorAll('.col-filter').forEach(f => {
+          f.classList.toggle('active', f.dataset.filter === cat);
+        });
+        applyFilter(cat);
+      }, 50);
+    }
+
+    function applyFilter(cat) {
+      const items = document.querySelectorAll('.col-item');
+      let visible = 0;
+      items.forEach(item => {
+        const match = cat === 'all' || item.dataset.cat === cat;
+        item.classList.toggle('hidden', !match);
+        if (match) visible++;
+      });
+      document.getElementById('col-count').textContent = visible + (visible === 1 ? ' piece' : ' pieces');
+    }
+
+    document.querySelectorAll('.col-filter').forEach(f => {
+      f.addEventListener('click', () => {
+        document.querySelectorAll('.col-filter').forEach(x => x.classList.remove('active'));
+        f.classList.add('active');
+        applyFilter(f.dataset.filter);
+      });
+    });
+  </script>
+
+</body>
+</html>
